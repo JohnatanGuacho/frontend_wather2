@@ -1,0 +1,177 @@
+/* === CONTENEDOR PRINCIPAL === */
+.report-container {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at 25% 20%, #0c1733, #050b18 80%);
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 1.5rem 2rem;
+  overflow-y: auto; /* ✅ Scroll activado */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Scroll personalizado */
+.report-container::-webkit-scrollbar {
+  width: 8px;
+}
+.report-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00bfff, #0077ff);
+  border-radius: 10px;
+}
+.report-container::-webkit-scrollbar-track {
+  background: #050b18;
+}
+
+/* === ENCABEZADO (más pequeño y con scroll) === */
+.report-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem 1rem;
+  background: rgba(10, 25, 60, 0.5);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0 0 15px rgba(0, 150, 255, 0.2);
+}
+
+.nasa-logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 6px #0077ff);
+}
+
+.report-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #00bfff;
+  margin: 0.3rem 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #9bb5d9;
+  margin: 0;
+}
+
+/* === SECCIONES GENERALES === */
+.report-section {
+  background: rgba(15, 25, 45, 0.8);
+  border: 1px solid #00bfff33;
+  border-left: 5px solid #00bfff;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0 0 15px rgba(0, 100, 255, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.report-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 180, 255, 0.2);
+}
+
+.report-section h2 {
+  font-size: 1.2rem;
+  color: #00bfff;
+  border-bottom: 1px solid #00bfff33;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* === GRID DE INFORMACIÓN === */
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.info-grid p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* === IMÁGENES === */
+.img-wrapper {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.img-wrapper img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 100, 255, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.img-wrapper img:hover {
+  transform: scale(1.02);
+}
+
+.img-caption {
+  font-size: 0.85rem;
+  color: #9ecfff;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* === LISTAS DE FUENTES === */
+.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.links li {
+  margin: 0.3rem 0;
+}
+
+.links a {
+  color: #00bfff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.links a:hover {
+  color: #66ccff;
+}
+
+/* === BOTÓN VOLVER === */
+.back-btn {
+  margin: 2rem 0 1rem 0;
+  text-align: center;
+}
+
+.back-btn button {
+  background: linear-gradient(90deg, #0077ff, #00bfff);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 120, 255, 0.3);
+}
+
+.back-btn button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 180, 255, 0.4);
+}
+
+/* === MENSAJE SIN DATOS === */
+.no-data {
+  color: #ff6666;
+  text-align: center;
+  font-style: italic;
+  margin-top: 2rem;
+  font-size: 1rem;
+}

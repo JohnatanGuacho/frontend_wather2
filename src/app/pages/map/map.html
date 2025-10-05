@@ -1,7 +1,11 @@
 <div class="map-container">
   <div class="nav">
     <div class="logo-section">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/NASA_Wormball_logo.svg/2048px-NASA_Wormball_logo.svg.png" class="logo" alt="NASA" />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/NASA_Wormball_logo.svg/2048px-NASA_Wormball_logo.svg.png"
+        class="logo"
+        alt="NASA"
+      />
       <span class="title">Hydro Urban</span>
     </div>
 
@@ -20,17 +24,27 @@
       <h2>🛰️ Información geográfica</h2>
       <div class="info-content">
         <p><strong>📍 Ciudad:</strong> <span id="city">Cargando...</span></p>
+        <p><strong>🏳️ País (ISO3):</strong> <span id="country">—</span></p>
         <p><strong>🌐 Latitud:</strong> <span id="lat">—</span></p>
         <p><strong>🌐 Longitud:</strong> <span id="lon">—</span></p>
         <p><strong>📏 Altitud:</strong> <span id="alt">—</span></p>
         <p><strong>👥 Densidad poblacional:</strong> <span id="pop">—</span></p>
       </div>
 
-      <button id="analyzeBtn">🔎 Analizar esta zona</button>
+      <button id="analyzeBtn" routerLink="/analyze-report">
+        🔎 Analizar esta zona
+      </button>
+      <button id="analyzeBtn" (click)="analyzeCurrentLocation()">🔎 Analizar esta zona</button>
+
+
+      <button id="snapshotBtn" (click)="takeSnapshotAndDownload()">🖼️ Descargar Plano (Vista Actual)</button>
     </aside>
   </div>
 
   <footer class="map-footer">
-    <p>🌐 Datos proporcionados por NASA POWER, GIBS, WorldPop y OSM | Equipo <strong>Water Watch</strong> 💧</p>
+    <p>
+      🌐 Datos proporcionados por NASA POWER, GIBS, WorldPop y OSM | Equipo
+      <strong>Water Watch</strong> 💧
+    </p>
   </footer>
 </div>

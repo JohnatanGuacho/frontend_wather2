@@ -5,11 +5,11 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #474747;
+  background-color: #000;
   font-family: "Poppins", sans-serif;
-  margin: 5px;
 }
 
+/* === NAV SUPERIOR === */
 .nav {
   height: 70px;
   background: linear-gradient(135deg, #0a1428, #1a2b4f);
@@ -57,6 +57,7 @@
   color: #00e1ff;
 }
 
+/* === CONTENEDOR PRINCIPAL MAPA + PANEL === */
 .map-wrapper {
   display: flex;
   flex-direction: row;
@@ -75,37 +76,18 @@
   overflow: hidden;
 }
 
-#cesiumContainer canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-}
-
-.cesium-viewer {
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  overflow: hidden !important;
-}
-
-.cesium-viewer-cesiumWidgetContainer {
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-}
-
-.cesium-widget {
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-}
-
+#cesiumContainer canvas,
+.cesium-viewer,
+.cesium-viewer-cesiumWidgetContainer,
+.cesium-widget,
 .cesium-widget canvas {
   width: 100% !important;
   height: 100% !important;
   display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
 }
 
 /* === PANEL DERECHO === */
@@ -139,7 +121,9 @@
   color: #00d4ff;
 }
 
-#analyzeBtn {
+/* === BOTONES === */
+#analyzeBtn,
+#snapshotBtn {
   background: linear-gradient(90deg, #0078ff, #00d4ff);
   border: none;
   border-radius: 8px;
@@ -147,13 +131,17 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
   align-self: center;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
-#analyzeBtn:hover {
+#analyzeBtn:hover,
+#snapshotBtn:hover {
   transform: scale(1.05);
   background: linear-gradient(90deg, #00d4ff, #0078ff);
+  box-shadow: 0 0 15px rgba(0, 225, 255, 0.6);
 }
 
 /* === FOOTER === */
@@ -192,16 +180,16 @@
   .nav {
     padding: 0 1rem;
   }
-  
+
   .links {
     gap: 1rem;
   }
-  
+
   .links a {
     padding: 6px 12px;
     font-size: 0.9rem;
   }
-  
+
   .info-panel {
     padding: 1rem;
   }

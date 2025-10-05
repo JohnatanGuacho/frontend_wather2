@@ -1,0 +1,94 @@
+<div class="report-container">
+  <header class="report-header">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/2560px-NASA_logo.svg.png"
+      alt="NASA Logo"
+      class="nasa-logo"
+    />
+    <h1>📊 Informe de Análisis Ambiental</h1>
+    <p class="subtitle">Generado con datos satelitales y abiertos (NASA, OSM, WorldPop)</p>
+  </header>
+
+  <div *ngIf="data; else noData">
+    <!-- 🌍 SECCIÓN UBICACIÓN -->
+    <section class="report-section">
+      <h2>🌍 Ubicación</h2>
+      <div class="info-grid">
+        <p><strong>Latitud:</strong> {{ data.location.lat }}</p>
+        <p><strong>Longitud:</strong> {{ data.location.lon }}</p>
+        <p><strong>País (ISO3):</strong> {{ data.location.iso3 }}</p>
+      </div>
+    </section>
+
+    <!-- 👥 SECCIÓN POBLACIÓN -->
+    <section class="report-section">
+      <h2>👥 Población</h2>
+      <p><strong>{{ data.population.title }}</strong></p>
+      <p>{{ data.population.desc }}</p>
+
+      <div class="img-wrapper" *ngIf="data.population.url_img">
+        <img [src]="data.population.url_img" alt="Mapa de población" />
+        <p class="img-caption">🗺️ Distribución poblacional (WorldPop 2020)</p>
+      </div>
+
+      <p>
+        <strong>Fuente:</strong>
+        <a [href]="data.population.url_summary" target="_blank">
+          WorldPop, University of Southampton
+        </a>
+      </p>
+    </section>
+
+    <!-- 🌦️ SECCIÓN CLIMA -->
+    <section class="report-section">
+      <h2>🌦️ Clima (NASA POWER)</h2>
+      <div *ngIf="getClimateSummary() as clima">
+        <p><strong>🌡️ Temperatura promedio:</strong> {{ clima.avgTemp }} °C</p>
+        <p><strong>💧 Precipitación promedio:</strong> {{ clima.avgPrec }} mm/día</p>
+      </div>
+      <p class="note">
+        Datos procesados desde la API de NASA POWER para los últimos 7 días.
+      </p>
+    </section>
+
+    <!-- 💧 SECCIÓN AGUA -->
+    <section class="report-section">
+      <h2>💧 Cuerpos de Agua Cercanos</h2>
+      <p>
+        Se identificaron
+        <strong>{{ data.water.count || 0 }}</strong> cuerpos de agua
+        dentro de un radio de 5 km.
+      </p>
+      <p class="note">Datos obtenidos de OpenStreetMap (Overpass API)</p>
+    </section>
+
+    <!-- 🛰️ SECCIÓN IMAGEN SATELITAL -->
+    <section class="report-section">
+      <h2>🛰️ Imagen Satelital</h2>
+      <div class="img-wrapper">
+        <img [src]="data.gibs.imageUrl" alt="Imagen satelital NASA GIBS" />
+        <p class="img-caption">🌍 Imagen satelital NASA GIBS (MODIS TrueColor)</p>
+      </div>
+    </section>
+
+    <!-- 🔗 ENLACES -->
+    <section class="report-section links">
+      <h2>🔗 Fuentes de Datos</h2>
+      <ul>
+        <li><a href="https://power.larc.nasa.gov/" target="_blank">NASA POWER</a></li>
+        <li><a href="https://gibs.earthdata.nasa.gov/" target="_blank">NASA GIBS</a></li>
+        <li><a href="https://hub.worldpop.org/" target="_blank">WorldPop</a></li>
+        <li><a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a></li>
+      </ul>
+    </section>
+
+    <!-- 🔙 BOTÓN VOLVER -->
+    <div class="back-btn">
+      <button routerLink="/map">⬅️ Volver al mapa</button>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p class="no-data">⚠️ No hay datos cargados. Regresa al mapa e inicia un nuevo análisis.</p>
+  </ng-template>
+</div>
