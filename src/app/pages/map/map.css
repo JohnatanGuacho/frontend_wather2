@@ -1,37 +1,110 @@
 /* === ESTRUCTURA PRINCIPAL === */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+.map-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
   background-color: #08101f;
   font-family: "Poppins", sans-serif;
 }
 
+.nav {
+  height: 60px;
+  background: linear-gradient(135deg, #0a1428, #1a2b4f);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  border-bottom: 1px solid #2a3b5f;
+  flex-shrink: 0;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  color: #00e1ff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.links a {
+  color: #cde9ff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.links a:hover,
+.links a.active {
+  background: rgba(0, 225, 255, 0.1);
+  color: #00e1ff;
+}
+
 .map-wrapper {
   display: flex;
   flex-direction: row;
-  width: 100vw;
-  height: calc(100vh - 90px); /* Resta el navbar */
+  flex: 1;
   overflow: hidden;
   background: #0b1220;
 }
 
 /* === MAPA CESIUM === */
-#cesiumContainer,
-.cesium-map {
-  flex: 3; /* 75% del ancho */
+#cesiumContainer {
+  flex: 3;
   height: 100%;
   width: 100%;
-  display: block;
   position: relative;
   border-right: 2px solid #0f1a35;
+  overflow: hidden;
 }
 
-.cesium-viewer,
+#cesiumContainer canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+.cesium-viewer {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
 .cesium-viewer-cesiumWidgetContainer {
   width: 100% !important;
   height: 100% !important;
+  overflow: hidden !important;
+}
+
+.cesium-widget {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.cesium-widget canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
 }
 
 /* === PANEL DERECHO === */
@@ -86,11 +159,11 @@ html, body {
 .map-footer {
   text-align: center;
   color: #9ab8e6;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background-color: #08101f;
-  padding: 0.5rem;
+  padding: 8px;
   border-top: 1px solid #1a2d4a;
-  width: 100%;
+  flex-shrink: 0;
 }
 
 /* === RESPONSIVE === */
@@ -100,12 +173,35 @@ html, body {
   }
 
   #cesiumContainer {
+    flex: 1;
     height: 60vh;
+    border-right: none;
+    border-bottom: 2px solid #0f1a35;
   }
 
   .info-panel {
+    flex: none;
     height: 40vh;
     border-left: none;
     border-top: 1px solid #1c2b4f;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav {
+    padding: 0 1rem;
+  }
+  
+  .links {
+    gap: 1rem;
+  }
+  
+  .links a {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .info-panel {
+    padding: 1rem;
   }
 }

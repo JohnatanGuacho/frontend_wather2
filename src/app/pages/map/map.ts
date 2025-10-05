@@ -5,7 +5,7 @@ import * as Cesium from 'cesium';
   selector: 'app-map',
   standalone: true,
   templateUrl: './map.html',
-  styleUrls: ['./map.css'],
+  styleUrls: ['./map.css', './map-fix.css'],
 })
 export class Map implements AfterViewInit {
   async ngAfterViewInit(): Promise<void> {
@@ -29,6 +29,8 @@ export class Map implements AfterViewInit {
 
       container.style.width = '100%';
       container.style.height = '100%';
+      container.style.display = 'block';
+      container.style.overflow = 'hidden';
 
       const viewer = new Cesium.Viewer(container, {
         terrainProvider,
@@ -128,11 +130,33 @@ export class Map implements AfterViewInit {
       if (anyViewer.timeline?.container)
         (anyViewer.timeline.container as HTMLElement).style.display = 'none';
 
-      // 🧭 Forzar resize después de montar el componente
-      setTimeout(() => {
-        window.dispatchEvent(new Event('resize'));
+      // 🧭 Forzar canvas a tamaño completo
+      const fixCanvasSize = () => {
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+          const rect = container.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+        }
         viewer.resize();
-      }, 800);
+      };
+      
+      setTimeout(fixCanvasSize, 100);
+      setTimeout(fixCanvasSize, 500);
+
+      // Observar cambios de tamaño del contenedor
+      const resizeObserver = new ResizeObserver(() => {
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+          const rect = container.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+        }
+        viewer.resize();
+      });
+      resizeObserver.observe(container);
 
       console.log('✅ CesiumJS inicializado correctamente');
     } catch (error) {
