@@ -5,12 +5,13 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #08101f;
+  background-color: #474747;
   font-family: "Poppins", sans-serif;
+  margin: 5px;
 }
 
 .nav {
-  height: 60px;
+  height: 70px;
   background: linear-gradient(135deg, #0a1428, #1a2b4f);
   display: flex;
   align-items: center;
@@ -27,12 +28,12 @@
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
 }
 
 .title {
-  color: #00e1ff;
+  color: #ffffff;
   font-size: 1.2rem;
   font-weight: 600;
 }
