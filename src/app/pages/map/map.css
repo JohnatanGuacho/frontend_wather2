@@ -1,0 +1,111 @@
+/* === ESTRUCTURA PRINCIPAL === */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #08101f;
+  font-family: "Poppins", sans-serif;
+}
+
+.map-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: calc(100vh - 90px); /* Resta el navbar */
+  overflow: hidden;
+  background: #0b1220;
+}
+
+/* === MAPA CESIUM === */
+#cesiumContainer,
+.cesium-map {
+  flex: 3; /* 75% del ancho */
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+  border-right: 2px solid #0f1a35;
+}
+
+.cesium-viewer,
+.cesium-viewer-cesiumWidgetContainer {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* === PANEL DERECHO === */
+.info-panel {
+  flex: 1;
+  background: rgba(10, 20, 40, 0.95);
+  color: #cde9ff;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid #1c2b4f;
+  backdrop-filter: blur(10px);
+}
+
+.info-panel h2 {
+  color: #00e1ff;
+  border-bottom: 1px solid #00e1ff;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.info-content p {
+  font-size: 1rem;
+  margin: 0.6rem 0;
+  color: #e1ecff;
+}
+
+.info-panel strong {
+  color: #00d4ff;
+}
+
+#analyzeBtn {
+  background: linear-gradient(90deg, #0078ff, #00d4ff);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  align-self: center;
+}
+
+#analyzeBtn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #00d4ff, #0078ff);
+}
+
+/* === FOOTER === */
+.map-footer {
+  text-align: center;
+  color: #9ab8e6;
+  font-size: 0.9rem;
+  background-color: #08101f;
+  padding: 0.5rem;
+  border-top: 1px solid #1a2d4a;
+  width: 100%;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .map-wrapper {
+    flex-direction: column;
+  }
+
+  #cesiumContainer {
+    height: 60vh;
+  }
+
+  .info-panel {
+    height: 40vh;
+    border-left: none;
+    border-top: 1px solid #1c2b4f;
+  }
+}

@@ -1,0 +1,37 @@
+<div class="nav">
+  <div class="logo-section">
+    <img src="assets/nasa-logo.png" class="logo" alt="NASA" />
+    <span class="title">Hydro Urban</span>
+  </div>
+
+  <div class="links">
+    <a routerLink="/home">🏠 Home</a>
+    <a routerLink="/map" class="active">🛰️ Mapa</a>
+    <a href="#">📊 Indicadores</a>
+    <a href="#">⚙️ Configuración</a>
+  </div>
+</div>
+
+<div class="map-wrapper">
+  <!-- 🌍 MAPA PRINCIPAL -->
+  <div id="cesiumContainer" class="cesium-map"></div>
+
+  <!-- 📊 PANEL DE INFORMACIÓN -->
+  <aside class="info-panel">
+    <h2>🛰️ Información geográfica</h2>
+    <div class="info-content">
+      <p><strong>📍 Ciudad:</strong> <span id="city">Cargando...</span></p>
+      <p><strong>🌐 Latitud:</strong> <span id="lat">—</span></p>
+      <p><strong>🌐 Longitud:</strong> <span id="lon">—</span></p>
+      <p><strong>📏 Altitud:</strong> <span id="alt">—</span></p>
+      <p><strong>👥 Densidad poblacional:</strong> <span id="pop">—</span></p>
+    </div>
+
+    <button id="analyzeBtn">🔎 Analizar esta zona</button>
+  </aside>
+</div>
+
+
+<footer class="map-footer">
+  <p>🌐 Datos proporcionados por NASA POWER, GIBS, WorldPop y OSM | Equipo <strong>Water Watch</strong> 💧</p>
+</footer>

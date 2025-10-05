@@ -22,10 +22,23 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium",
+                "output": "assets/cesium"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/cesium/Build/Cesium/Cesium.js"
             ]
           },
           "configurations": {
@@ -79,6 +92,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -88,5 +106,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "70b0de3a-9976-4d3c-8df8-9a0080d17818"
   }
 }
