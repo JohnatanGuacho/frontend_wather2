@@ -3,20 +3,27 @@
     <div class="logo-section">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/NASA_Wormball_logo.svg/2048px-NASA_Wormball_logo.svg.png"
-        class="logo"
-        alt="NASA"
-      />
+        class="logo" alt="NASA" />
       <span class="title">Hydro Urban</span>
     </div>
 
-    <div class="links">
-      <a routerLink="/">🏠 Home</a>
-      <a routerLink="/map" class="active">🛰️ Mapa</a>
-      <a href="#">📊 Indicadores</a>
-      <a href="#">⚙️ Configuración</a>
-    </div>
+    <!-- Pestañas (ahora alineadas a la derecha) + indicador deslizante -->
+    <nav class="links" #nav (mouseleave)="onLeaveNav()">
+      <span #indicator class="nav-indicator" aria-hidden="true"></span>
+
+      <a class="nav-item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        (mouseenter)="moveIndicator($event)" (focus)="moveIndicator($event)">
+        Home
+      </a>
+
+      <a class="nav-item" routerLink="/map" routerLinkActive="active" (mouseenter)="moveIndicator($event)"
+        (focus)="moveIndicator($event)">
+        Mapa
+      </a>
+    </nav>
   </div>
 
+  <!-- CONTENEDOR PRINCIPAL MAPA + PANEL -->
   <div class="map-wrapper">
     <div id="cesiumContainer"></div>
 
@@ -32,8 +39,6 @@
       </div>
 
       <button id="analyzeBtn" (click)="analyzeCurrentLocation()">🔎 Analizar esta zona</button>
-
-
       <button id="snapshotBtn" (click)="takeSnapshotAndDownload()">🖼️ Descargar Plano (Vista Actual)</button>
     </aside>
   </div>

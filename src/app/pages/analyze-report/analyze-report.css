@@ -1,165 +1,491 @@
-/* === CONTENEDOR PRINCIPAL === */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --bg-1: #071427;
+  --bg-2: #0b1f3e;
+
+  --card: #18386e;
+  --card-2: #143260;
+
+  --stroke: rgba(255, 255, 255, .18);
+  --txt: #f4fbff;
+  --txt-soft: #cfe3ff;
+
+  --chip-bg: rgba(255, 255, 255, .12);
+  --chip-bd: rgba(255, 255, 255, .25);
+}
+
+/* ===== LIENZO con ROCA (20%) + ESTRELLAS ===== */
 .main-container {
-  background: linear-gradient(180deg, #07101d, #0c203b);
-  color: #e5eaf3;
-  font-family: "Poppins", sans-serif;
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--txt);
   padding: 2rem;
   display: flex;
   justify-content: center;
+  isolation: isolate;
 }
 
-/* === TARJETA CENTRAL === */
+/* roca: +10% => ahora 0.20 */
+.main-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: url('https://images.unsplash.com/photo-1600959907703-125ba1374a9b?auto=format&fit=crop&w=2400&q=60');
+  background-size: cover;
+  background-position: center;
+  opacity: 20;
+}
+
+.main-container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 6;
+  animation: stars 60s linear infinite;
+}
+
+@keyframes stars {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 1200px 1200px;
+  }
+}
+
+/* ===== CONTENEDOR ===== */
 .report-container {
-  width: 90%;
-  max-width: 1100px;
-  background: rgba(15, 30, 55, 0.9);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+  width: min(1150px, 92vw);
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--stroke);
+  border-radius: 20px;
+  padding: 2rem 2rem 2.2rem;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, .55);
+  position: relative;
 }
 
-/* === HEADER === */
+/* ===== HEADER ===== */
 .report-header {
   text-align: center;
-  margin-bottom: 2rem;
-}
-.nasa-logo {
-  width: 80px;
-  margin-bottom: 0.6rem;
-}
-.report-header h1 {
-  color: #00d1ff;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-.subtitle {
-  color: #9dc8e8;
-  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
 }
 
-/* === SCROLLABLE === */
-.scrollable-content {
-  max-height: calc(100vh - 160px);
-  overflow-y: auto;
-  padding-right: 10px;
+/* Solo el subtítulo del header en blanco */
+.subtitle.is-white {
+  color: #ffffff;
+  /* texto blanco */
 }
 
-/* === CARDS GENERALES === */
-.card {
-  background: #112445;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-left: 4px solid #00bfff;
-  box-shadow: 0 0 12px rgba(0, 191, 255, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-}
-
-/* === COLORES SEGÚN TEMA === */
-.card-location { border-left-color: #1ecbe1; }
-.card-population { border-left-color: #ff5f5f; }
-.card-climate { border-left-color: #ffd966; }
-.card-water { border-left-color: #33e9b5; }
-.card-gibs { border-left-color: #66a3ff; }
-.card-analysis { border-left-color: #ff9ff3; }
-.card-sources { border-left-color: #8884ff; }
-
-.card h2 {
-  color: #00e6ff;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-/* === GRID INFO === */
-.info-grid {
+.logo-orb {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.5rem;
+  place-items: center;
+  background: radial-gradient(60% 60% at 50% 35%, rgba(150, 230, 255, .32), rgba(0, 0, 0, .1));
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .45);
 }
 
-/* === IMÁGENES === */
+.logo-orb img {
+  width: 74px;
+}
+
+.page-title {
+  margin: .2rem 0 .35rem;
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-weight: 800;
+  letter-spacing: .3px;
+  font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+  color: #bfebf5;
+}
+
+.subtitle {
+  color: var(--txt-soft);
+  font-size: .96rem;
+}
+
+.divider {
+  height: 2px;
+  margin: 1rem auto 1.2rem;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(159, 235, 255, .9), transparent);
+  border-radius: 2px;
+}
+
+/* ===== CONTENIDO ===== */
+.content {
+  max-height: none;
+  overflow: visible;
+}
+
+/* ========== TARJETAS ========== */
+.card {
+  position: relative;
+  background: #1a3f79;
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 1.15rem 1.3rem 1.25rem;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .06);
+  color: var(--txt);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+/* Variables de acento por tarjeta */
+.card-location {
+  --accent: #25c9ea;
+  --accent-glow: rgba(37, 201, 234, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-population {
+  --accent: #ff6b6b;
+  --accent-glow: rgba(255, 107, 107, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-climate {
+  --accent: #ffd766;
+  --accent-glow: rgba(255, 215, 102, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-water {
+  --accent: #33e9b5;
+  --accent-glow: rgba(51, 233, 181, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-gibs {
+  --accent: #66a3ff;
+  --accent-glow: rgba(102, 163, 255, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-analysis {
+  --accent: #ff9ff3;
+  --accent-glow: rgba(255, 159, 243, .45);
+  border-left: 5px solid var(--accent);
+}
+
+.card-sources {
+  --accent: #8884ff;
+  --accent-glow: rgba(136, 132, 255, .45);
+  border-left: 5px solid var(--accent);
+}
+
+/* Efecto hover: resalte con la sombra del color del filo */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, .55),
+    0 0 0 1px rgba(255, 255, 255, .06),
+    0 0 26px var(--accent-glow, rgba(95, 230, 255, .35));
+}
+
+/* Decoración sutil extra para “Ubicación” */
+.card-location::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(550px 120px at 8% -10%, rgba(37, 201, 234, .16), transparent 60%);
+}
+
+/* Títulos */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 800;
+  font-size: clamp(1.08rem, 2.1vw, 1.3rem);
+  color: #f2fbff;
+  margin: 0 0 .65rem;
+}
+
+.section-title span {
+  font-size: 1.2rem;
+}
+
+.card p {
+  color: var(--txt);
+}
+
+.lead {
+  color: #eef9ff;
+}
+
+/* ====== Ubicación: chips con icono ====== */
+.loc-sub {
+  color: var(--txt-soft);
+  margin: -.25rem 0 .6rem;
+  font-size: .92rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+}
+
+.fancy-chips .chip {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.chip {
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid var(--chip-bd);
+  border-radius: 12px;
+  padding: .6rem .85rem;
+  min-width: 180px;
+}
+
+.chip-ico {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  background: rgba(255, 255, 255, .14);
+  box-shadow: inset 0 0 0 1px var(--chip-bd);
+}
+
+/* acentos por chip */
+.chip-lat .chip-ico {
+  background: rgba(137, 211, 255, .18);
+  box-shadow: inset 0 0 0 1px rgba(137, 211, 255, .45);
+}
+
+.chip-lon .chip-ico {
+  background: rgba(169, 255, 239, .18);
+  box-shadow: inset 0 0 0 1px rgba(169, 255, 239, .45);
+}
+
+.chip-iso .chip-ico {
+  background: rgba(255, 215, 102, .18);
+  box-shadow: inset 0 0 0 1px rgba(255, 215, 102, .45);
+}
+
+.chip-body small {
+  display: block;
+  color: var(--txt-soft);
+  font-size: .82rem;
+}
+
+.chip-body strong {
+  letter-spacing: .2px;
+}
+
+/* IMÁGENES */
 .img-wrapper {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: .85rem;
 }
+
 .img-wrapper img {
-  width: 85%;
-  border-radius: 10px;
-  border: 2px solid rgba(0, 255, 255, 0.3);
-  box-shadow: 0 0 10px rgba(0, 183, 255, 0.3);
+  width: min(900px, 86%);
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .55);
 }
+
 .img-caption {
-  font-size: 0.85rem;
-  color: #b9eaff;
-  margin-top: 0.5rem;
+  font-size: .9rem;
+  color: var(--txt-soft);
+  margin-top: .55rem;
   font-style: italic;
 }
 
-/* === CLIMA === */
-.climate-stats {
-  display: flex;
-  justify-content: space-around;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.stat {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
-  text-align: center;
-  width: 45%;
-  min-width: 180px;
-}
-.stat h3 {
-  color: #00e6ff;
-  margin-top: 0.3rem;
+.meta {
+  color: var(--txt-soft);
+  margin-top: .6rem;
 }
 
-/* === INTERPRETACIÓN AMBIENTAL === */
+.meta a {
+  color: #5fe6ff;
+}
+
+.meta a:hover {
+  color: #a7ffef;
+  text-decoration: underline;
+}
+
+/* STATS */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .9rem;
+}
+
+.stat {
+  background: #1d4586;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  text-align: center;
+}
+
+.stat p {
+  margin: 0 0 .3rem;
+  color: var(--txt-soft);
+  font-weight: 700;
+}
+
+.stat h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+/* INSIGHTS */
 .insight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: .9rem;
 }
-.insight-card {
-  border-radius: 10px;
-  padding: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.3rem;
-  color: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-.insight-card.warm { background: linear-gradient(135deg, #ff8c42, #ff5e57); }
-.insight-card.mild { background: linear-gradient(135deg, #70e1f5, #ffd194); }
-.insight-card.cold { background: linear-gradient(135deg, #4776e6, #8e54e9); }
-.insight-card.rain { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-.insight-card.dry { background: linear-gradient(135deg, #f7971e, #ffd200); }
-.insight-card.water { background: linear-gradient(135deg, #00f5a0, #00d9f5); }
-.insight-card.no-water { background: linear-gradient(135deg, #ff5858, #f09819); }
 
-/* === BOTÓN VOLVER === */
-.back-btn {
+.insight {
+  border-radius: 12px;
+  padding: .9rem 1rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .2);
+}
+
+.insight.warm {
+  background: linear-gradient(135deg, #ff8c42, #ff5e57);
+}
+
+.insight.mild {
+  background: linear-gradient(135deg, #70e1f5, #ffd194);
+}
+
+.insight.cold {
+  background: linear-gradient(135deg, #4776e6, #8e54e9);
+}
+
+.insight.rain {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.insight.dry {
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+}
+
+.insight.water {
+  background: linear-gradient(135deg, #00f5a0, #00d9f5);
+}
+
+.insight.nowater {
+  background: linear-gradient(135deg, #ff5858, #f09819);
+}
+
+.note {
+  color: var(--txt-soft);
+}
+
+/* FUENTES con resaltado al pasar el mouse */
+.source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .9rem;
+  margin-top: .4rem;
+}
+
+.source-card {
+  --accent: #5fe6ff;
+  --accent-glow: rgba(95, 230, 255, .4);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 2px 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #1d4586;
+  border: 1px solid var(--stroke);
+  text-decoration: none;
+  color: var(--txt);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.source-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .45), 0 0 22px var(--accent-glow);
+  background: #22509a;
+}
+
+.source-card .src-icon {
+  grid-row: 1 / span 2;
+  font-size: 1.2rem;
+}
+
+.source-card .src-title {
+  font-weight: 800;
+}
+
+.source-card .src-desc {
+  font-size: .92rem;
+  color: var(--txt-soft);
+}
+
+.source-card.nasa-power {
+  --accent: #19d1ff;
+  --accent-glow: rgba(25, 209, 255, .45);
+  border-left: 4px solid var(--accent);
+}
+
+.source-card.nasa-gibs {
+  --accent: #66a3ff;
+  --accent-glow: rgba(102, 163, 255, .45);
+  border-left: 4px solid var(--accent);
+}
+
+.source-card.worldpop {
+  --accent: #ff6b6b;
+  --accent-glow: rgba(255, 107, 107, .45);
+  border-left: 4px solid var(--accent);
+}
+
+.source-card.osm {
+  --accent: #33e9b5;
+  --accent-glow: rgba(51, 233, 181, .45);
+  border-left: 4px solid var(--accent);
+}
+
+/* NO DATA */
+.no-data {
   text-align: center;
-  margin-top: 2rem;
+  color: #ffe7a6;
 }
-.back-btn button {
-  background: linear-gradient(135deg, #00bfff, #0099ff);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0.8rem 1.6rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.back-btn button:hover {
-  background: linear-gradient(135deg, #0099ff, #00bfff);
-  transform: scale(1.05);
+
+/* RESPONSIVE */
+@media (max-width:600px) {
+  .main-container {
+    padding: 1.2rem;
+  }
+
+  .report-container {
+    padding: 1.2rem;
+  }
 }

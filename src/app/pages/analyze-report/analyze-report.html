@@ -1,139 +1,156 @@
 <!-- analyze-report.component.html -->
 <div class="main-container">
   <div class="report-container">
-    <header class="report-header">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/2560px-NASA_logo.svg.png"
-        alt="NASA Logo"
-        class="nasa-logo"
-      />
-      <h1>📊 Informe de Análisis Ambiental</h1>
-      <p class="subtitle">
-        Generado con datos satelitales y abiertos (NASA POWER, OSM, WorldPop, GIBS)
-      </p>
-    </header>
 
-    <div *ngIf="data; else noData" class="scrollable-content">
-      <!-- 🌍 UBICACIÓN -->
-      <div class="card card-location">
-        <h2>🌍 Ubicación</h2>
-        <div class="info-grid">
-          <p><strong>Latitud:</strong> {{ data.location.lat }}</p>
-          <p><strong>Longitud:</strong> {{ data.location.lon }}</p>
-          <p><strong>País (ISO3):</strong> {{ data.location.iso3 }}</p>
-        </div>
+    <!-- HEADER -->
+    <header class="report-header">
+      <div class="logo-orb">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/2560px-NASA_logo.svg.png"
+          alt="NASA Logo" />
       </div>
 
+      <h1 class="page-title">Informe de Análisis Ambiental</h1>
+      <p class="subtitle is-white">
+        Generado con datos satelitales y abiertos (NASA POWER, OSM, WorldPop, GIBS)
+      </p>
+      <div class="divider"></div>
+    </header>
+
+    <!-- CONTENIDO -->
+    <div *ngIf="data; else noData" class="content">
+
+      <!-- 🌍 UBICACIÓN (mejorada) -->
+      <section class="card card-location">
+        <h2 class="section-title"><span>🌍</span> Ubicación</h2>
+        <p class="loc-sub">Coordenadas de referencia</p>
+
+        <div class="chip-row fancy-chips">
+          <div class="chip chip-lat">
+            <i class="chip-ico">🧭</i>
+            <div class="chip-body">
+              <small>Latitud</small>
+              <strong>{{ data.location.lat }}</strong>
+            </div>
+          </div>
+
+          <div class="chip chip-lon">
+            <i class="chip-ico">🧭</i>
+            <div class="chip-body">
+              <small>Longitud</small>
+              <strong>{{ data.location.lon }}</strong>
+            </div>
+          </div>
+
+          <div class="chip chip-iso">
+            <i class="chip-ico">🏳️</i>
+            <div class="chip-body">
+              <small>País (ISO3)</small>
+              <strong>{{ data.location.iso3 }}</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- 👥 POBLACIÓN -->
-      <div class="card card-population">
-        <h2>👥 Población</h2>
-        <p><strong>{{ data.population?.title }}</strong></p>
+      <section class="card card-population">
+        <h2 class="section-title"><span>👥</span> Población</h2>
+
+        <p class="lead"><strong>{{ data.population?.title }}</strong></p>
         <p>{{ data.population?.desc }}</p>
 
-        <div class="img-wrapper" *ngIf="data.population?.url_img">
+        <figure class="img-wrapper" *ngIf="data.population?.url_img">
           <img [src]="data.population.url_img" alt="Mapa de población" />
-          <p class="img-caption">🗺️ Distribución poblacional (WorldPop 2020)</p>
-        </div>
+          <figcaption class="img-caption">WorldPop 2020 — Distribución poblacional</figcaption>
+        </figure>
 
-        <p>
-          <strong>Fuente:</strong>
-          <a [href]="data.population?.url_summary" target="_blank">
+        <p class="meta">
+          <span>Fuente:</span>
+          <a [href]="data.population?.url_summary" target="_blank" rel="noopener">
             WorldPop, University of Southampton
           </a>
         </p>
-      </div>
+      </section>
 
       <!-- 🌦️ CLIMA -->
-      <div class="card card-climate">
-        <h2>🌦️ Clima (NASA POWER)</h2>
-        <div *ngIf="getClimateSummary() as clima">
-          <div class="climate-stats">
-            <div class="stat">
-              <p>🌡️ <strong>Temperatura promedio</strong></p>
-              <h3>{{ clima.avgTemp }} °C</h3>
-            </div>
-            <div class="stat">
-              <p>💧 <strong>Precipitación promedio</strong></p>
-              <h3>{{ clima.avgPrec }} mm/día</h3>
-            </div>
+      <section class="card card-climate">
+        <h2 class="section-title"><span>🌦️</span> Clima (NASA POWER)</h2>
+        <div *ngIf="getClimateSummary() as clima" class="stat-grid">
+          <div class="stat">
+            <p>Temperatura promedio</p>
+            <h3>{{ clima.avgTemp }} °C</h3>
+          </div>
+          <div class="stat">
+            <p>Precipitación promedio</p>
+            <h3>{{ clima.avgPrec }} mm/día</h3>
           </div>
         </div>
-        <p class="note">Datos procesados desde la API de NASA POWER (últimos 7 días).</p>
-      </div>
+        <p class="note">Datos de los últimos 7 días (NASA POWER).</p>
+      </section>
 
       <!-- 💧 CUERPOS DE AGUA -->
-      <div class="card card-water">
-        <h2>💧 Cuerpos de Agua Cercanos</h2>
-        <p>
-          Se identificaron <strong>{{ data.water?.count || 0 }}</strong> cuerpos de agua dentro
-          de un radio de 5 km.
-        </p>
-        <p class="note">Datos obtenidos de OpenStreetMap (Overpass API).</p>
-      </div>
+      <section class="card card-water">
+        <h2 class="section-title"><span>💧</span> Cuerpos de Agua Cercanos</h2>
+        <p>Se identificaron <strong>{{ data.water?.count || 0 }}</strong> cuerpos de agua en un radio de 5 km.</p>
+        <p class="note">Fuente: OpenStreetMap (Overpass API).</p>
+      </section>
 
       <!-- 🛰️ IMAGEN SATELITAL -->
-      <div class="card card-gibs" *ngIf="data.gibs?.imageUrl">
-        <h2>🛰️ Imagen Satelital</h2>
-        <div class="img-wrapper">
+      <section class="card card-gibs" *ngIf="data.gibs?.imageUrl">
+        <h2 class="section-title"><span>🛰️</span> Imagen Satelital</h2>
+        <figure class="img-wrapper">
           <img [src]="data.gibs.imageUrl" alt="Imagen satelital NASA GIBS" />
-          <p class="img-caption">🌍 Imagen satelital NASA GIBS (MODIS TrueColor)</p>
-        </div>
-      </div>
+          <figcaption class="img-caption">NASA GIBS — MODIS TrueColor</figcaption>
+        </figure>
+      </section>
 
       <!-- 🔎 INTERPRETACIÓN -->
-      <div class="card card-analysis">
-        <h2>🔎 Interpretación Ambiental</h2>
+      <section class="card card-analysis">
+        <h2 class="section-title"><span>🔎</span> Interpretación Ambiental</h2>
         <div *ngIf="getClimateSummary() as clima" class="insight-grid">
-          <div class="insight-card warm" *ngIf="+clima.avgTemp > 25">
-            ☀️ <strong>Zona cálida:</strong> Podría presentar estrés hídrico en épocas secas.
+          <div class="insight warm" *ngIf="+clima.avgTemp > 25">☀️ <strong>Zona cálida:</strong> posible estrés hídrico
+            en épocas secas.</div>
+          <div class="insight mild" *ngIf="+clima.avgTemp <= 25 && +clima.avgTemp >= 15">🌤️ <strong>Clima
+              templado:</strong> condiciones favorables para vegetación moderada.</div>
+          <div class="insight cold" *ngIf="+clima.avgTemp < 15">❄️ <strong>Zona fría:</strong> baja evapotranspiración.
           </div>
-
-          <div
-            class="insight-card mild"
-            *ngIf="+clima.avgTemp <= 25 && +clima.avgTemp >= 15"
-          >
-            🌤️ <strong>Clima templado:</strong> Condiciones ideales para la vegetación moderada.
-          </div>
-
-          <div class="insight-card cold" *ngIf="+clima.avgTemp < 15">
-            ❄️ <strong>Zona fría:</strong> Menor evapotranspiración, riesgo bajo de sequía.
-          </div>
-
-          <div class="insight-card rain" *ngIf="+clima.avgPrec > 5">
-            🌧️ <strong>Alta precipitación:</strong> Posible riesgo de inundaciones o suelos saturados.
-          </div>
-
-          <div class="insight-card dry" *ngIf="+clima.avgPrec <= 5">
-            🔥 <strong>Baja precipitación:</strong> Riesgo de sequías prolongadas o escasez de agua.
-          </div>
-
-          <div class="insight-card water" *ngIf="data.water?.count > 0">
-            💦 <strong>Presencia hídrica:</strong> Se detectan fuentes de agua cercanas útiles para riego.
-          </div>
-
-          <div class="insight-card no-water" *ngIf="data.water?.count === 0">
-            🚫 <strong>Sin cuerpos de agua visibles:</strong> Posible vulnerabilidad hídrica local.
-          </div>
+          <div class="insight rain" *ngIf="+clima.avgPrec > 5">🌧️ <strong>Alta precipitación:</strong> riesgo de suelos
+            saturados/inundaciones.</div>
+          <div class="insight dry" *ngIf="+clima.avgPrec <= 5">🔥 <strong>Baja precipitación:</strong> sequías
+            prolongadas.</div>
+          <div class="insight water" *ngIf="data.water?.count > 0">💦 <strong>Presencia hídrica:</strong> posibles
+            fuentes de riego.</div>
+          <div class="insight nowater" *ngIf="data.water?.count === 0">🚫 <strong>Sin cuerpos de agua:</strong>
+            vulnerabilidad hídrica local.</div>
         </div>
-        <p class="note">
-          ⚠️ Estas observaciones son en base a la DATA obtenidad por los satelites de la NASA.
-        </p>
-      </div>
+        <p class="note">Observaciones indicativas; no sustituyen estudios in situ.</p>
+      </section>
 
       <!-- 🔗 FUENTES -->
-      <div class="card card-sources">
-        <h2>🔗 Fuentes de Datos</h2>
-        <ul>
-          <li><a href="https://power.larc.nasa.gov/" target="_blank">NASA POWER</a></li>
-          <li><a href="https://gibs.earthdata.nasa.gov/" target="_blank">NASA GIBS</a></li>
-          <li><a href="https://hub.worldpop.org/" target="_blank">WorldPop</a></li>
-          <li><a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a></li>
-        </ul>
-      </div>
-
-      <div class="back-btn">
-        <button routerLink="/map">⬅️ Volver al mapa</button>
-      </div>
+      <section class="card card-sources">
+        <h2 class="section-title"><span>🔗</span> Fuentes de Datos</h2>
+        <div class="source-grid">
+          <a class="source-card nasa-power" href="https://power.larc.nasa.gov/" target="_blank" rel="noopener">
+            <span class="src-icon">🛰️</span>
+            <span class="src-title">NASA POWER</span>
+            <span class="src-desc">Meteorología y radiación</span>
+          </a>
+          <a class="source-card nasa-gibs" href="https://gibs.earthdata.nasa.gov/" target="_blank" rel="noopener">
+            <span class="src-icon">🏙️</span>
+            <span class="src-title">NASA GIBS</span>
+            <span class="src-desc">Imágenes satelitales</span>
+          </a>
+          <a class="source-card worldpop" href="https://hub.worldpop.org/" target="_blank" rel="noopener">
+            <span class="src-icon">👥</span>
+            <span class="src-title">WorldPop</span>
+            <span class="src-desc">Densidad poblacional</span>
+          </a>
+          <a class="source-card osm" href="https://www.openstreetmap.org/" target="_blank" rel="noopener">
+            <span class="src-icon">🗺️</span>
+            <span class="src-title">OpenStreetMap</span>
+            <span class="src-desc">Vector geográfico (Overpass)</span>
+          </a>
+        </div>
+      </section>
     </div>
 
     <ng-template #noData>

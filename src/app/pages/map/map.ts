@@ -1,4 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import * as Cesium from 'cesium';
 
 @Component({
@@ -6,12 +7,56 @@ import * as Cesium from 'cesium';
   standalone: true,
   templateUrl: './map.html',
   styleUrls: ['./map.css', './map-fix.css'],
+  imports: [RouterLink, RouterLinkActive],
 })
 export class Map implements AfterViewInit {
   private viewer: Cesium.Viewer | undefined;
   private locationMarker: Cesium.Entity | undefined;
 
+  /* === NAV INDICATOR === */
+  @ViewChild('indicator', { static: true }) indicator!: ElementRef<HTMLElement>;
+  @ViewChild('nav', { static: true }) nav!: ElementRef<HTMLElement>;
+
+  @HostListener('window:resize')
+  onResize() { this.snapToActive(); }
+
+  moveIndicator(ev: MouseEvent | FocusEvent) {
+    const target = ev.currentTarget as HTMLElement;
+    this.positionIndicator(target);
+  }
+  onLeaveNav() { this.snapToActive(); }
+
+  private positionIndicator(target: HTMLElement) {
+    if (!this.indicator || !this.nav) return;
+    const navRect = this.nav.nativeElement.getBoundingClientRect();
+    const rect = target.getBoundingClientRect();
+    const left = rect.left - navRect.left;
+
+    const el = this.indicator.nativeElement;
+    el.style.width = `${rect.width}px`;
+    el.style.transform = `translateX(${left}px)`;
+    el.style.opacity = '1';
+  }
+
+  private snapToActive() {
+    if (!this.nav) return;
+    const active = this.nav.nativeElement.querySelector('.nav-item.active, .links a.active') as HTMLElement | null;
+    const el = this.indicator?.nativeElement;
+    if (active && el) {
+      this.positionIndicator(active);
+    } else if (el) {
+      el.style.opacity = '0';
+    }
+  }
+
+  private deferSnapToActive() {
+    setTimeout(() => this.snapToActive(), 0);
+    setTimeout(() => this.snapToActive(), 300);
+  }
+
   async ngAfterViewInit(): Promise<void> {
+    this.deferSnapToActive(); // coloca el indicador al cargar
+
     const container = document.getElementById('cesiumContainer');
     if (!container) return;
 
@@ -83,6 +128,7 @@ export class Map implements AfterViewInit {
       this.setupResizeLogic(container, this.viewer);
 
       console.log('✅ CesiumJS inicializado correctamente');
+      this.deferSnapToActive(); // recoloca tras render
     } catch (error) {
       console.error('🚨 Error al inicializar Cesium:', error);
     }
@@ -171,7 +217,7 @@ export class Map implements AfterViewInit {
       const positions = [Cesium.Cartographic.fromDegrees(longitude, latitude)];
       const updated = await Cesium.sampleTerrainMostDetailed(this.viewer.terrainProvider, positions);
       if (updated[0].height) realAltitude = updated[0].height;
-    } catch {}
+    } catch { }
 
     if (this.locationMarker) this.viewer.entities.remove(this.locationMarker);
     this.locationMarker = this.viewer.entities.add({
@@ -272,8 +318,8 @@ export class Map implements AfterViewInit {
   }
 
   // ----------------------------------------------------------------------------------
-// 🧠 FUNCIÓN: Analizar zona (usa el backend /api/analyze)
-// ----------------------------------------------------------------------------------
+  // 🧠 FUNCIÓN: Analizar zona
+  // ----------------------------------------------------------------------------------
   public async analyzeCurrentLocation(): Promise<void> {
     try {
       const latText = document.getElementById('lat')?.textContent;
@@ -285,7 +331,6 @@ export class Map implements AfterViewInit {
         return;
       }
 
-      // 📍 Extraer coordenadas
       const lat = parseFloat(latText);
       const lon = parseFloat(lonText);
       const iso3 = countryText.split(' ').pop()?.trim() || 'ECU';
@@ -297,10 +342,7 @@ export class Map implements AfterViewInit {
       );
       const result = await response.json();
 
-      // 💾 Guardar resultado en localStorage
       localStorage.setItem('analyzeResult', JSON.stringify(result));
-
-      // 🔄 Redirigir a la página del reporte
       window.location.href = '/analyze-report';
     } catch (err) {
       console.error('🚨 Error al analizar la zona:', err);
